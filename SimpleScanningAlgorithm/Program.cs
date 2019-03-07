@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
-
+using System.IO;
+using System.Linq;
 
 namespace SimpleScanningAlgorithm
 
@@ -66,11 +66,15 @@ namespace SimpleScanningAlgorithm
                 listNumber++;
 
                 //Ask if user will be adding a task to list
-                Console.WriteLine("You have selected to add a task.  Please enter in the task you would like to add. Press 0 to exit Application. \n");
+                Console.WriteLine("You have selected to add a task.  Would you like to add a task to an existing document Select 1 for YES or 2 for NO? Press 0 to exit Application. \n");
+                userEntry = Console.ReadLine();
+
+                //if (userEntry == 1)
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
 
+
+
                 //Accept user entry and add to list
-                userEntry = Console.ReadLine();
 
                 Console.WriteLine($"You have entered : {listNumber}. {userEntry}");
                 // Store task inside of the list
@@ -103,11 +107,18 @@ namespace SimpleScanningAlgorithm
         private static void openTask()
         {
             string openTextFile;
+
             Console.WriteLine("You have chosen to OPEN a file, which file would you like to open \n");
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
-            openTextFile = Console.ReadLine();
-            string filePath = @"C:\Users\samuel.lane.sa\Documents\Education\" + $"{openTextFile}.txt", taskList;
-            //List<> openTextFile = file.ReadAllLines(@"C:\Users\samuel.lane.sa\Documents\Education\" + $"{openTextFile}.txt", taskList).ToList();
+            openTextFile = Convert.ToString(Console.ReadLine());
+            string filePath = @"C:\Users\samuel.lane.sa\Documents\Education\" + $"{openTextFile}.txt";
+            string[] myArray = File.ReadAllLines(@"C:\Users\samuel.lane.sa\Documents\Education\" + $"{openTextFile}.txt");
+
+            foreach (string element in myArray)
+            {
+                Console.WriteLine(element);
+                taskList.Add(element);
+            }
         }
 
         public static void quitApp()
@@ -156,17 +167,17 @@ namespace SimpleScanningAlgorithm
                 Console.WriteLine("Your Task List has not been saved \n");
 
             }
-            /*Console.WriteLine("Would you like to now view your list in a text document? Press 1 for YES and 2 for NO");
-            openTask = Console.WriteLine();
+            Console.WriteLine("Would you like to now view your list in a text document? Press 1 for YES and 2 for NO");
+            int listTask = 0;
 
-            if (openTask == 1);
+            if (listTask == 1)
             {
                 openTask();
             }
             else 
             {
-                exitApp();
-            }*/
+                Console.WriteLine("Thank you. Have a wonderful day!!!");
+            }
 
             
             
