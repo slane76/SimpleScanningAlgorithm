@@ -13,77 +13,71 @@ namespace SimpleScanningAlgorithm
 
         static void Main(string[] args)
         {
-            //int userResponse = 0;
-            //Prompt user for name
+
             Console.WriteLine("Please Enter Your First and Last Name. \n");
             string greetUser = Console.ReadLine();
             Console.WriteLine($"Hello: {greetUser} nice to meet you. \n");
-            //Prompt user to make a selection from menu
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
+
             Console.WriteLine("Please make a number selection from the Main Menu. \n");
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
-            Console.WriteLine("1. I would like to ADD a task. \n");
-            Console.WriteLine("2. I would like to REMOVE a task. \n");
-            Console.WriteLine("3. I would like to OPEN a saved list. \n");
-            Console.WriteLine("4. I would like to QUIT the application. \n");
+            Console.WriteLine("1.) I would like to CREATE a new task. \n");
+            Console.WriteLine("2.) I would like to ADD TO AN EXISTING tasklist. \n");
+            Console.WriteLine("3.) I would like to REMOVE FROM AN EXISTING a tasklist. \n");
+            Console.WriteLine("4.) I would like to VIEW a saved list. \n");
+            Console.WriteLine("5.) I would like to QUIT the application. \n");
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
 
             int userResponse = Convert.ToInt32(Console.ReadLine());
 
             if (userResponse == 1)
             {
-                addTask();
+                createTask();
             }
             else if (userResponse == 2)
             {
-                removeTask();
+                addTask();
             }
             else if (userResponse == 3)
             {
-                openTask();
+                removeTask();
             }
             else if (userResponse == 4)
             {
+                viewTask();
+            }
+            else if (userResponse == 5)
+            {
                 quitApp();
             }
-            else
-                Console.WriteLine("Invalid Option");
+            Console.WriteLine("Invalid Option");
         }
 
 
-
-        public static void addTask()
+        public static void createTask()
         {
-            //var taskList = new List<string>();
-
             int listNumber = 0;
-            string userEntry;
             int count = 0;
-            int userResponse = 1;
+            int userResponse;
+            string userEntry = "";
 
             do
             {
                 count++;
                 listNumber++;
 
-                //Ask if user will be adding a task to list
-                Console.WriteLine("You have selected to add a task.  Would you like to add a task to an existing document Select 1 for YES or 2 for NO? Press 0 to exit Application. \n");
-                userEntry = Console.ReadLine();
-
-                //if (userEntry == 1)
+                Console.WriteLine("You have selected to CREATE a new tasklist.");
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
 
+                {
+                    Console.WriteLine("Please enter a task.");
+                    userEntry = Console.ReadLine();
+                    Console.WriteLine($"You have entered : {listNumber}. {userEntry}");
+                    taskList.Add(userEntry);
+                    Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
+                }
 
-
-                //Accept user entry and add to list
-
-                Console.WriteLine($"You have entered : {listNumber}. {userEntry}");
-                // Store task inside of the list
-                taskList.Add(userEntry);
-
-
-                //int userResponse;
-                //Promt user if they want to enter another task
-                Console.WriteLine("Thank you, Would like to add another task? Enter 1 for YES and 2 for NO \n");
+                Console.WriteLine("Thank you, Would like to add another task?\nEnter (1) for YES and (2) for NO \n");
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
 
 
@@ -95,36 +89,175 @@ namespace SimpleScanningAlgorithm
 
         }
 
-        public static void removeTask()
+        private static void addTask()
         {
-            //Ask if user has completed a task and will be marking it off the list
-            Console.WriteLine("You have selected to remove a task from the list. Which task would you like to remove? \n");
+            string userResponse = "";
+            string fileToOpen = "";
+            int myLoop = 0;
+
+
+            Console.WriteLine("You have chosen to OPEN and Edit a tasklist. Which file would you like to open and edit ");
+            fileToOpen = Convert.ToString(Console.ReadLine());
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
 
-            string removeTask = Convert.ToString(Console.ReadLine());
+            string filePath = @"C:\Users\samuel.lane.sa\Documents\Education\" + $"{fileToOpen}.txt";
+
+            List<string> lines = File.ReadAllLines(filePath).ToList();
+
+            do
+            {
+                Console.WriteLine("Your current list is: ");
+
+                foreach (string line in lines)
+                {
+                    Console.WriteLine(line);
+                }
+
+                Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
+                Console.WriteLine("What would you like to add?");
+                Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
+                userResponse = Convert.ToString(Console.ReadLine());
+                lines.Add(userResponse);
+                Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
+                Console.WriteLine("New item saved, your new list is: ");
+
+                File.WriteAllLines(filePath, lines);
+                foreach (string line in lines)
+                {
+                    Console.WriteLine(line);
+                }
+
+                Console.WriteLine("Would you like to add another task?");
+                myLoop = Convert.ToInt32(Console.ReadLine());
+
+                if (myLoop == 1)
+                {
+                    Console.WriteLine("Thank You");
+                }
+                else
+                    quitApp();
+            }
+            while (myLoop != 2);
         }
 
-        private static void openTask()
+        public static void removeTask()
         {
-            string openTextFile;
+            string userResponse = "";
+            string fileToOpen = "";
+            int myLoop = 0;
 
-            Console.WriteLine("You have chosen to OPEN a file, which file would you like to open \n");
+
+            Console.WriteLine("You have chosen to OPEN and REMOVE items from a tasklist. Which file would you like to open and edit ");
+            fileToOpen = Convert.ToString(Console.ReadLine());
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
-            openTextFile = Convert.ToString(Console.ReadLine());
-            string filePath = @"C:\Users\samuel.lane.sa\Documents\Education\" + $"{openTextFile}.txt";
-            string[] myArray = File.ReadAllLines(@"C:\Users\samuel.lane.sa\Documents\Education\" + $"{openTextFile}.txt");
 
-            foreach (string element in myArray)
+            string filePath = @"C:\Users\samuel.lane.sa\Documents\Education\" + $"{fileToOpen}.txt";
+
+            List<string> lines = File.ReadAllLines(filePath).ToList();
+
+            do
             {
-                Console.WriteLine(element);
-                taskList.Add(element);
+                Console.WriteLine("Your current list is: ");
+
+                foreach (string line in lines)
+                {
+                    Console.WriteLine(line);
+                }
+
+                Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
+                Console.WriteLine("What would you like to remove?");
+                Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
+                userResponse = Convert.ToString(Console.ReadLine());
+                lines.Remove(userResponse);
+                Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
+                Console.WriteLine("Item removed, your updated list is: ");
+
+                File.WriteAllLines(filePath, lines);
+
+                foreach (string line in lines)
+                {
+                    Console.WriteLine(line);
+
+                }
+                Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
+
+
+                Console.WriteLine("Would you like to remove another task? Press (1) for YES and (2) for NO");
+                myLoop = Convert.ToInt32(Console.ReadLine());
+
+                if (myLoop == 1)
+                {
+                    Console.WriteLine("Thank You");
+                }
+                else
+                    quitApp();
             }
+            while (myLoop != 2);
+
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
+
+        }
+
+        private static void viewTask()
+        {
+            string fileToOpen = "";
+            int myResponse = 0;
+
+
+            Console.WriteLine("You have chosen to OPEN and VIEW a tasklist. Which file would you like to open and view ");
+            fileToOpen = Convert.ToString(Console.ReadLine());
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
+
+            string filePath = @"C:\Users\samuel.lane.sa\Documents\Education\" + $"{fileToOpen}.txt";
+
+            List<string> lines = File.ReadAllLines(filePath).ToList();
+
+
+
+            Console.WriteLine("Your current list is: ");
+
+            foreach (string line in lines)
+            {
+                Console.WriteLine(line);
+            }
+
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
+            Console.WriteLine("What would you like to do now?");
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
+            Console.WriteLine("1.) I would like to CREATE a new task. \n");
+            Console.WriteLine("2.) I would like to ADD TO AN EXISTING tasklist. \n");
+            Console.WriteLine("3.) I would like to REMOVE FROM AN EXISTING a tasklist. \n");
+            Console.WriteLine("4.) I would like to QUIT the application. \n");
+
+            myResponse = Convert.ToInt32(Console.ReadLine());
+
+            if (myResponse == 1)
+            {
+                createTask();
+            }
+            else if (myResponse == 2)
+            {
+                addTask();
+            }
+            else if (myResponse == 3)
+            {
+                removeTask();
+            }
+            else if (myResponse == 4)
+            {
+                quitApp();
+            }
+            else
+            {
+                Console.WriteLine("Invalid Option");
+            }
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
+
         }
 
         public static void quitApp()
         {
-            //Ask user if he/she would like to quit the application
-            Console.WriteLine("Are you sure you would like to quit the application? Press 1 for Yes and 2 for No \n");
+            Console.WriteLine("Are you sure you would like to quit the application?\nPress (1) for Yes and (2) for No \n");
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
 
             string quitApp = Convert.ToString(Console.ReadLine());
@@ -147,7 +280,7 @@ namespace SimpleScanningAlgorithm
             }
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
 
-            Console.WriteLine("Would you like to save your list now? Press 1 for YES and 2 for NO \n");
+            Console.WriteLine("Would you like to save your list now?\nPress (1) for YES and (2) for NO \n");
             userResponse = Convert.ToInt32(Console.ReadLine());
 
 
@@ -156,32 +289,18 @@ namespace SimpleScanningAlgorithm
                 Console.WriteLine("Please name your file \n");
                 string SaveFileAs = Console.ReadLine();
                 System.IO.File.WriteAllLines(@"C:\Users\samuel.lane.sa\Documents\Education\" + $"{SaveFileAs}.txt", taskList);
-
+                Console.WriteLine("Your tasklist has been updated. Have a wonderful week");
             }
             else if (userResponse == 2)
             {
-                //exitApp;
-            }
-            else
-            {
-                Console.WriteLine("Your Task List has not been saved \n");
-
-            }
-            Console.WriteLine("Would you like to now view your list in a text document? Press 1 for YES and 2 for NO");
-            int listTask = 0;
-
-            if (listTask == 1)
-            {
-                openTask();
-            }
-            else 
-            {
-                Console.WriteLine("Thank you. Have a wonderful day!!!");
+                Console.WriteLine("WARNING!!! Your data has not been saved");
             }
 
-            
-            
+
         }
+
     }
 
 }
+
+
