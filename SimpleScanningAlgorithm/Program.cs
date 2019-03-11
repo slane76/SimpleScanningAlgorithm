@@ -18,7 +18,7 @@ namespace SimpleScanningAlgorithm
             string greetUser = Console.ReadLine();
             Console.WriteLine($"Hello: {greetUser} nice to meet you. \n");
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
-
+            
             Console.WriteLine("Please make a number selection from the Main Menu. \n");
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
             Console.WriteLine("1.) I would like to CREATE a new task. \n");
@@ -29,6 +29,9 @@ namespace SimpleScanningAlgorithm
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
 
             int userResponse = Convert.ToInt32(Console.ReadLine());
+
+            Console.Clear();
+
 
             if (userResponse == 1)
             {
@@ -50,8 +53,13 @@ namespace SimpleScanningAlgorithm
             {
                 quitApp();
             }
+            else
             Console.WriteLine("Invalid Option");
+
+
         }
+
+
 
 
         public static void createTask()
@@ -63,6 +71,8 @@ namespace SimpleScanningAlgorithm
 
             do
             {
+                Console.Clear();
+
                 count++;
                 listNumber++;
 
@@ -94,6 +104,8 @@ namespace SimpleScanningAlgorithm
             string userResponse = "";
             string fileToOpen = "";
             int myLoop = 0;
+
+            Console.Clear();
 
 
             Console.WriteLine("You have chosen to OPEN and Edit a tasklist. Which file would you like to open and edit ");
@@ -127,7 +139,7 @@ namespace SimpleScanningAlgorithm
                     Console.WriteLine(line);
                 }
 
-                Console.WriteLine("Would you like to add another task?");
+                Console.WriteLine("Would you like to add another task? Press (1) for YES and (2) for NO");
                 myLoop = Convert.ToInt32(Console.ReadLine());
 
                 if (myLoop == 1)
@@ -146,6 +158,7 @@ namespace SimpleScanningAlgorithm
             string fileToOpen = "";
             int myLoop = 0;
 
+            Console.Clear();
 
             Console.WriteLine("You have chosen to OPEN and REMOVE items from a tasklist. Which file would you like to open and edit ");
             fileToOpen = Convert.ToString(Console.ReadLine());
@@ -200,8 +213,11 @@ namespace SimpleScanningAlgorithm
 
         private static void viewTask()
         {
+
             string fileToOpen = "";
             int myResponse = 0;
+
+            Console.Clear();
 
 
             Console.WriteLine("You have chosen to OPEN and VIEW a tasklist. Which file would you like to open and view ");
@@ -257,6 +273,8 @@ namespace SimpleScanningAlgorithm
 
         public static void quitApp()
         {
+            Console.Clear();
+
             Console.WriteLine("Are you sure you would like to quit the application?\nPress (1) for Yes and (2) for No \n");
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------\n");
 
@@ -289,6 +307,18 @@ namespace SimpleScanningAlgorithm
                 Console.WriteLine("Please name your file \n");
                 string SaveFileAs = Console.ReadLine();
                 System.IO.File.WriteAllLines(@"C:\Users\samuel.lane.sa\Documents\Education\" + $"{SaveFileAs}.txt", taskList);
+
+                if (SaveFileAs == SaveFileAs)
+                {
+                    Console.WriteLine("The file already exist. Would you like to replace the existing file?");
+                    Console.ReadLine();
+
+                    if (userResponse == 1)
+                    {
+                        Console.WriteLine("Thank you");
+                    }
+                }
+
                 Console.WriteLine("Your tasklist has been updated. Have a wonderful week");
             }
             else if (userResponse == 2)
